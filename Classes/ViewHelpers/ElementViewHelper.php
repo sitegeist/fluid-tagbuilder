@@ -102,7 +102,7 @@ class ElementViewHelper extends AbstractViewHelper
     {
         $booleanAttributes = self::getBooleanAttributes($tagName);
         foreach ($attributes as $name => &$value) {
-            if (!is_bool($value) && !in_array($name, $booleanAttributes)) {
+            if (!in_array($name, $booleanAttributes)) {
                 continue;
             }
 
