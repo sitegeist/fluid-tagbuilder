@@ -1,0 +1,9 @@
+<?php
+declare(strict_types=1);
+
+namespace Sitegeist\FluidTagbuilder\ViewHelpers;
+
+class CodeViewHelper extends ElementViewHelper
+{
+    protected $tagName = 'code';
+}
