@@ -1,0 +1,50 @@
+{
+    "name": "sitegeist/fluid-tagbuilder",
+    "description": "",
+    "type": "typo3-cms-extension",
+    "homepage": "https://github.com/sitegeist/fluid-tagbuilder",
+    "license": ["GPL-2.0-or-later"],
+    "keywords": ["typo3", "typo3-extension", "fluid", "typo3-fluid", "html", "template"],
+    "authors": [
+        {
+            "name": "Simon Praetorius",
+            "email": "praetorius@sitegeist.de"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sitegeist/fluid-tagbuilder/issues"
+    },
+    "require": {
+        "typo3/cms-core": "^9.5 || ^10.4 || ^11.0",
+        "php": ">=7.2.0 <8"
+    },
+    "require-dev": {
+        "typo3/testing-framework": "^4.0",
+        "squizlabs/php_codesniffer": "^3.0",
+        "editorconfig-checker/editorconfig-checker": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sitegeist\\FluidTagbuilder\\": "Classes/"
+        }
+    },
+    "config": {
+        "vendor-dir": ".Build/vendor",
+        "bin-dir": ".Build/bin"
+    },
+    "extra": {
+        "typo3/cms": {
+            "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "web-dir": ".Build/Web"
+        }
+    },
+    "scripts": {
+        "lint": [
+            "@lint:php",
+            "@lint:editorconfig"
+        ],
+        "lint:php": "phpcs --standard=PSR2 --extensions=php --exclude=Generic.Files.LineLength --ignore='\\.Build,Tests,ext_emconf\\.php,Resources/Private/Php/' .",
+        "lint:editorconfig": "ec .",
+        "test": "phpunit -c .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTests.xml Tests/"
+    }
+}
