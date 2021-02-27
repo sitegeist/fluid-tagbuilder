@@ -13,6 +13,8 @@ class ElementViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
+    public static $argumentPrefix = 'ft:';
+
     /**
      * Name of the HTML element that should be generated
      *
@@ -27,11 +29,11 @@ class ElementViewHelper extends AbstractViewHelper
 
     public function initializeArguments()
     {
-        $this->registerArgument('ft:tagName', 'string', 'Name of the html element', false, $this->tagName);
-        $this->registerArgument('ft:classList', 'array', 'List of css classes that should be added to the tag', false, []);
-        $this->registerArgument('ft:dataList', 'array', 'List of data attributes that should be added to the tag', false, []);
-        $this->registerArgument('ft:attributeList', 'array', 'List of html attributes that should be added to the tag', false, []);
-        $this->registerArgument('ft:spaceless', 'boolean', 'Set to true if tag content should be trimmed of leading and trailing spaces', false, false);
+        $this->registerArgument(self::$argumentPrefix . 'tagName', 'string', 'Name of the html element', false, $this->tagName);
+        $this->registerArgument(self::$argumentPrefix . 'classList', 'array', 'List of css classes that should be added to the tag', false, []);
+        $this->registerArgument(self::$argumentPrefix . 'dataList', 'array', 'List of data attributes that should be added to the tag', false, []);
+        $this->registerArgument(self::$argumentPrefix . 'attributeList', 'array', 'List of html attributes that should be added to the tag', false, []);
+        $this->registerArgument(self::$argumentPrefix . 'spaceless', 'boolean', 'Set to true if tag content should be trimmed of leading and trailing spaces', false, false);
         foreach ($this->getBooleanAttributes($this->tagName) as $name) {
             $this->registerArgument($name, 'boolean', '', false, false);
         }
@@ -51,17 +53,17 @@ class ElementViewHelper extends AbstractViewHelper
     public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
         // Extract special arguments
-        $tagName = $arguments['ft:tagName'];
-        $spaceless = $arguments['ft:spaceless'];
-        $classList = $arguments['ft:classList'];
-        $dataList = $arguments['ft:dataList'];
-        $attributeList = $arguments['ft:attributeList'];
+        $tagName = $arguments[self::$argumentPrefix . 'tagName'];
+        $spaceless = $arguments[self::$argumentPrefix . 'spaceless'];
+        $classList = $arguments[self::$argumentPrefix . 'classList'];
+        $dataList = $arguments[self::$argumentPrefix . 'dataList'];
+        $attributeList = $arguments[self::$argumentPrefix . 'attributeList'];
         unset(
-            $arguments['ft:tagName'],
-            $arguments['ft:classList'],
-            $arguments['ft:dataList'],
-            $arguments['ft:attributeList'],
-            $arguments['ft:spaceless']
+            $arguments[self::$argumentPrefix . 'tagName'],
+            $arguments[self::$argumentPrefix . 'classList'],
+            $arguments[self::$argumentPrefix . 'dataList'],
+            $arguments[self::$argumentPrefix . 'attributeList'],
+            $arguments[self::$argumentPrefix . 'spaceless']
         );
 
         // Create tag builder instance
