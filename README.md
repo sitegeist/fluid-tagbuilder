@@ -1,6 +1,51 @@
 # Fluid TagBuilder
 
-TODO
+An attempt to make pieced together HTML tags in Fluid templates more readable.
+
+before:
+
+```xml
+<img
+    src="{image}"
+    class="{class} {f:if(condition: isBold, then: 'bold')} {f:if(condition: isActive, then: 'active')}"
+    {f:if(condition: alternative, then: 'alt="{alternative}"')}
+    {f:if(condition: title, then: 'title="{title}"')}
+/>
+```
+
+after:
+
+```xml
+<ft:img
+    src="{image}"
+    ft:classList="{
+        0: class,
+        1: '{f:if(condition: isBold, then: \'bold\')}',
+        2: '{f:if(condition: isActive, then: \'active\')}
+    }"
+    alt="{alternative}"
+    title="{title}"
+/>
+```
+
+## Getting started
+
+Install the extension either [from TER](https://extensions.typo3.org/extension/fluid_tagbuilder/) or [via composer](https://packagist.org/packages/sitegeist/fluid-tagbuilder):
+
+```
+composer require sitegeist/fluid-tagbuilder
+```
+
+## Features
+
+* removes empty tag attributes
+* supports all currently defined `boolean` HTML5 attributes
+    * if `true`: `required="required"`
+    * if `false`: no attribute
+* generates optimized class attribute from `ft:classList="{...}"`
+* generates data attributes from `ft:dataList="{...}"`
+* generates additional tag attributes from `ft:attributeList="{...}"`
+* short hand to remove whitespace with `ft:spaceless="1"`
 
 ## Supported HTML tags
 
