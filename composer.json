@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Sitegeist\\FluidTagbuilder\\": "Classes/"
+            "Sitegeist\\FluidTagbuilder\\": "src/"
         }
     },
     "config": {
@@ -35,7 +35,7 @@
             "@lint:php",
             "@lint:editorconfig"
         ],
-        "lint:php": "phpcs --standard=PSR2 --extensions=php --exclude=Generic.Files.LineLength --ignore='\\.Build' .",
+        "lint:php": "phpcs --standard=PSR2 --extensions=php --exclude=Generic.Files.LineLength src/",
         "lint:editorconfig": "ec ."
     }
 }
