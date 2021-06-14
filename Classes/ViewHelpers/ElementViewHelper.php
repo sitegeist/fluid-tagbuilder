@@ -13,6 +13,11 @@ class ElementViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
+    /**
+     * Prefix that will be applied to all "special" attributes, like classList
+     *
+     * @var string
+     */
     public static $argumentPrefix = ':';
 
     /**
