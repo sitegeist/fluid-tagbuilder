@@ -39,6 +39,11 @@ class ElementViewHelper extends AbstractViewHelper
         }
     }
 
+    public function handleAdditionalArguments(array $arguments)
+    {
+        $this->arguments = array_merge($this->arguments, $arguments);
+    }
+
     public function validateAdditionalArguments(array $arguments)
     {
         // Allow all arguments
