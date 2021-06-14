@@ -13,7 +13,7 @@ class ElementViewHelper extends AbstractViewHelper
 {
     use CompileWithRenderStatic;
 
-    public static $argumentPrefix = 'ft:';
+    public static $argumentPrefix = ':';
 
     /**
      * Name of the HTML element that should be generated
