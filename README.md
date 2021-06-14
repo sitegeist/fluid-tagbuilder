@@ -1,51 +1,64 @@
 # Fluid TagBuilder
 
-An attempt to make pieced together HTML tags in Fluid templates more readable.
+This is an attempt to make complex Fluid templates with a lot of dynamically pieced together HTML tags more readable.
+
+Disclaimer: This is no one fits all solution and should only be used when appropriate, certainly not for all tags in your template!
 
 before:
 
 ```xml
-<img
-    src="{image}"
+<button
     class="{class} {f:if(condition: isBold, then: 'bold')} {f:if(condition: isActive, then: 'active')}"
-    {f:if(condition: alternative, then: 'alt="{alternative}"')}
+    data-items="{data.items}"
+    data-count="{data.count}"
     {f:if(condition: title, then: 'title="{title}"')}
-/>
+><f:spaceless>
+    More content
+</f:spaceless></button>
 ```
 
 after:
 
 ```xml
-<ft:img
-    src="{image}"
-    ft:classList="{
-        0: class,
-        1: '{f:if(condition: isBold, then: \'bold\')}',
-        2: '{f:if(condition: isActive, then: \'active\')}
+<ft:button
+    class="{class}"
+    :classList="{
+        'bold': isBold,
+        'active': isActive
     }"
-    alt="{alternative}"
+    :dataList="{data}"
+    :spaceless="1"
     title="{title}"
-/>
+>
+    More content
+</ft:button>
 ```
 
 ## Getting started
 
-Install the extension either [from TER](https://extensions.typo3.org/extension/fluid_tagbuilder/) or [via composer](https://packagist.org/packages/sitegeist/fluid-tagbuilder):
+Install the library [via composer](https://packagist.org/packages/sitegeist/fluid-tagbuilder):
 
 ```
 composer require sitegeist/fluid-tagbuilder
 ```
 
+... and start using it in your templates:
+
+```xml
+<html xmlns:ft="http://typo3.org/ns/Sitegeist/FluidTagbuilder/ViewHelpers" data-namespace-typo3-fluid="true">
+```
+
 ## Features
 
-* removes empty tag attributes
+* supports all tags currently defined by the HTML specification (see below)
 * supports all currently defined `boolean` HTML5 attributes
     * if `true`: `required="required"`
     * if `false`: no attribute
-* generates optimized class attribute from `ft:classList="{...}"`
-* generates data attributes from `ft:dataList="{...}"`
-* generates additional tag attributes from `ft:attributeList="{...}"`
-* short hand to remove whitespace with `ft:spaceless="1"`
+* removes empty tag attributes
+* generates optimized class attribute from `:classList="{...}"`
+* generates data attributes from `:dataList="{...}"`
+* generates additional tag attributes from `:attributeList="{...}"`
+* short hand to remove whitespace with `:spaceless="1"`
 
 ## Supported HTML tags
 
