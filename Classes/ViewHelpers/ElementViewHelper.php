@@ -88,7 +88,7 @@ class ElementViewHelper extends AbstractViewHelper
         if ($tagBuilder->hasAttribute('class')) {
             array_unshift($classList, $tagBuilder->getAttribute('class'));
         }
-        $tagBuilder->addAttribute('class', self::generateClassString($classList));
+        $tagBuilder->addAttribute('class', self::generateClassString($classList, $renderingContext));
 
         return $tagBuilder->render();
     }
@@ -98,9 +98,17 @@ class ElementViewHelper extends AbstractViewHelper
         return trim(preg_replace('/\\>\\s+\\</', '><', $content));
     }
 
-    protected static function generateClassString(array $classList): string
+    protected static function generateClassString(array $classList, RenderingContextInterface $renderingContext): string
     {
-        return implode(' ', array_unique(array_filter(array_map('trim', $classList))));
+        $classes = [];
+        foreach ($classList as $key => $value) {
+            if (is_numeric($key)) {
+                $classes[] = trim($value);
+            } elseif (BooleanNode::convertToBoolean($value, $renderingContext) === true) {
+                $classes[] = trim($key);
+            }
+        }
+        return implode(' ', array_unique(array_filter($classes)));
     }
 
     protected static function prepareBooleanAttributes(array $attributes, string $tagName, RenderingContextInterface $renderingContext): array
