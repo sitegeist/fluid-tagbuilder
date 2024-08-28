@@ -18,24 +18,24 @@ class ElementViewHelper extends AbstractViewHelper
 
     protected $escapeOutput = false;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument(self::$argumentPrefix . 'tagName', 'string', 'Name of the html element', false, $this->tagName);
         $this->registerArgument(self::$argumentPrefix . 'classList', 'array', 'List of css classes that should be added to the tag', false, []);
         $this->registerArgument(self::$argumentPrefix . 'dataList', 'array', 'List of data attributes that should be added to the tag', false, []);
         $this->registerArgument(self::$argumentPrefix . 'attributeList', 'array', 'List of html attributes that should be added to the tag', false, []);
         $this->registerArgument(self::$argumentPrefix . 'spaceless', 'boolean', 'Set to true if tag content should be trimmed of leading and trailing spaces', false, false);
-        foreach ($this->getBooleanAttributes($this->tagName) as $name) {
+        foreach (static::getBooleanAttributes($this->tagName) as $name) {
             $this->registerArgument($name, 'boolean', '', false, false);
         }
     }
 
-    public function handleAdditionalArguments(array $arguments)
+    public function handleAdditionalArguments(array $arguments): void
     {
         $this->arguments = array_merge($this->arguments, $arguments);
     }
 
-    public function validateAdditionalArguments(array $arguments)
+    public function validateAdditionalArguments(array $arguments): void
     {
         // Allow all arguments
     }
@@ -80,7 +80,7 @@ class ElementViewHelper extends AbstractViewHelper
 
     protected static function performSpaceless(string $content): string
     {
-        return trim(preg_replace('/\\>\\s+\\</', '><', $content));
+        return trim((string) preg_replace('/\\>\\s+\\</', '><', $content));
     }
 
     protected static function generateClassString(array $classList, RenderingContextInterface $renderingContext): string
@@ -88,7 +88,7 @@ class ElementViewHelper extends AbstractViewHelper
         $classes = [];
         foreach ($classList as $key => $value) {
             if (is_numeric($key)) {
-                $classes[] = trim($value);
+                $classes[] = trim((string) $value);
             } elseif (BooleanNode::convertToBoolean($value, $renderingContext) === true) {
                 $classes[] = trim($key);
             }
@@ -120,52 +120,21 @@ class ElementViewHelper extends AbstractViewHelper
     protected static function getBooleanAttributes(string $tagName): array
     {
         $globalAttributes = ['autofocus', 'hidden', 'itemscope'];
-        switch ($tagName) {
-            case 'audio':
-            case 'video':
-                return array_merge($globalAttributes, ['autoplay', 'controls', 'loop', 'muted', 'playsinline']);
-
-            case 'button':
-                return array_merge($globalAttributes, ['disabled', 'formnovalidate']);
-
-            case 'details':
-            case 'dialog':
-                return array_merge($globalAttributes, ['open']);
-
-            case 'fieldset':
-            case 'link':
-            case 'optgroup':
-                return array_merge($globalAttributes, ['disabled']);
-
-            case 'form':
-                return array_merge($globalAttributes, ['novalidate']);
-
-            case 'iframe':
-                return array_merge($globalAttributes, ['allowfullscreen']);
-
-            case 'img':
-                return array_merge($globalAttributes, ['ismap']);
-
-            case 'input':
-                return array_merge($globalAttributes, ['checked', 'disabled', 'formnovalidate', 'multiple', 'readonly', 'required']);
-
-            case 'ol':
-                return array_merge($globalAttributes, ['reversed']);
-
-            case 'option':
-                return array_merge($globalAttributes, ['disabled', 'selected']);
-
-            case 'script':
-                return array_merge($globalAttributes, ['async', 'defer', 'nomodule']);
-
-            case 'select':
-                return array_merge($globalAttributes, ['disabled', 'multiple', 'required']);
-
-            case 'textarea':
-                return array_merge($globalAttributes, ['disabled', 'readonly', 'required']);
-
-            default:
-                return $globalAttributes;
-        }
+        return match ($tagName) {
+            'audio', 'video' => array_merge($globalAttributes, ['autoplay', 'controls', 'loop', 'muted', 'playsinline']),
+            'button' => array_merge($globalAttributes, ['disabled', 'formnovalidate']),
+            'details', 'dialog' => array_merge($globalAttributes, ['open']),
+            'fieldset', 'link', 'optgroup' => array_merge($globalAttributes, ['disabled']),
+            'form' => array_merge($globalAttributes, ['novalidate']),
+            'iframe' => array_merge($globalAttributes, ['allowfullscreen']),
+            'img' => array_merge($globalAttributes, ['ismap']),
+            'input' => array_merge($globalAttributes, ['checked', 'disabled', 'formnovalidate', 'multiple', 'readonly', 'required']),
+            'ol' => array_merge($globalAttributes, ['reversed']),
+            'option' => array_merge($globalAttributes, ['disabled', 'selected']),
+            'script' => array_merge($globalAttributes, ['async', 'defer', 'nomodule']),
+            'select' => array_merge($globalAttributes, ['disabled', 'multiple', 'required']),
+            'textarea' => array_merge($globalAttributes, ['disabled', 'readonly', 'required']),
+            default => $globalAttributes,
+        };
     }
 }
