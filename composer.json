@@ -6,8 +6,12 @@
     "keywords": ["fluid", "typo3-fluid", "html", "html5", "template", "tag"],
     "authors": [
         {
+            "name": "Ulrich Mathes",
+            "email": "mathes@sitegeist.de"
+        },
+        {
             "name": "Simon Praetorius",
-            "email": "praetorius@sitegeist.de"
+            "email": "moin@praetorius.me"
         }
     ],
     "support": {
