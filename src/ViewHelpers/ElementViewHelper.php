@@ -7,29 +7,15 @@ use TYPO3Fluid\Fluid\Core\Parser\SyntaxTree\BooleanNode;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 class ElementViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
+    // Prefix that will be applied to all "special" attributes, like classList
+    public static string $argumentPrefix = ':';
 
-    /**
-     * Prefix that will be applied to all "special" attributes, like classList
-     *
-     * @var string
-     */
-    public static $argumentPrefix = ':';
-
-    /**
-     * Name of the HTML element that should be generated
-     *
-     * @var string
-     */
+    // Name of the HTML element that should be generated
     protected $tagName = 'div';
 
-    /**
-     * @var boolean
-     */
     protected $escapeOutput = false;
 
     public function initializeArguments()
@@ -54,37 +40,31 @@ class ElementViewHelper extends AbstractViewHelper
         // Allow all arguments
     }
 
-    /*
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
-     * @return string
-     */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    public function render(): string
     {
         // Extract special arguments
-        $tagName = $arguments[self::$argumentPrefix . 'tagName'];
-        $spaceless = $arguments[self::$argumentPrefix . 'spaceless'];
-        $classList = $arguments[self::$argumentPrefix . 'classList'];
-        $dataList = $arguments[self::$argumentPrefix . 'dataList'];
-        $attributeList = $arguments[self::$argumentPrefix . 'attributeList'];
+        $tagName = $this->arguments[self::$argumentPrefix . 'tagName'];
+        $spaceless = $this->arguments[self::$argumentPrefix . 'spaceless'];
+        $classList = $this->arguments[self::$argumentPrefix . 'classList'];
+        $dataList = $this->arguments[self::$argumentPrefix . 'dataList'];
+        $attributeList = $this->arguments[self::$argumentPrefix . 'attributeList'];
         unset(
-            $arguments[self::$argumentPrefix . 'tagName'],
-            $arguments[self::$argumentPrefix . 'classList'],
-            $arguments[self::$argumentPrefix . 'dataList'],
-            $arguments[self::$argumentPrefix . 'attributeList'],
-            $arguments[self::$argumentPrefix . 'spaceless']
+            $this->arguments[self::$argumentPrefix . 'tagName'],
+            $this->arguments[self::$argumentPrefix . 'classList'],
+            $this->arguments[self::$argumentPrefix . 'dataList'],
+            $this->arguments[self::$argumentPrefix . 'attributeList'],
+            $this->arguments[self::$argumentPrefix . 'spaceless']
         );
 
         // Create tag builder instance
-        $tagContent = $spaceless ? static::performSpaceless($renderChildrenClosure()) : $renderChildrenClosure();
+        $tagContent = $spaceless ? static::performSpaceless($this->renderChildren()) : $this->renderChildren();
         $tagBuilder = new TagBuilder($tagName, $tagContent);
         $tagBuilder->ignoreEmptyAttributes(true);
 
         // Set tag attributes
-        $attributes = array_merge($arguments, $attributeList);
+        $attributes = array_merge($this->arguments, $attributeList);
         if ($attributes !== []) {
-            $attributes = self::prepareBooleanAttributes($attributes, $tagName, $renderingContext);
+            $attributes = self::prepareBooleanAttributes($attributes, $tagName, $this->renderingContext);
             $tagBuilder->addAttributes($attributes);
         }
         $tagBuilder->addAttribute('data', $dataList);
@@ -93,7 +73,7 @@ class ElementViewHelper extends AbstractViewHelper
         if ($tagBuilder->hasAttribute('class')) {
             array_unshift($classList, $tagBuilder->getAttribute('class'));
         }
-        $tagBuilder->addAttribute('class', self::generateClassString($classList, $renderingContext));
+        $tagBuilder->addAttribute('class', self::generateClassString($classList, $this->renderingContext));
 
         return $tagBuilder->render();
     }
