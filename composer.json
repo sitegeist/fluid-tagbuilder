@@ -18,7 +18,7 @@
         "issues": "https://github.com/sitegeist/fluid-tagbuilder/issues"
     },
     "require": {
-        "typo3fluid/fluid": "<=2.14.1",
+        "typo3fluid/fluid": "^4.0 || <=2.14.1",
         "php": "^8.2"
     },
     "require-dev": {
