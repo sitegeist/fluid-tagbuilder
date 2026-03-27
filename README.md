@@ -48,6 +48,18 @@ composer require sitegeist/fluid-tagbuilder
 <html xmlns:ft="http://typo3.org/ns/Sitegeist/FluidTagbuilder/ViewHelpers" data-namespace-typo3-fluid="true">
 ```
 
+With TYPO3 14 you can define the global Fluid namespaces within php:
+
+```php
+//  EXT:my_extension/Configuration/Fluid/Namespaces.php
+<?php
+
+return [
+    'ft' => ['Sitegeist\\FluidTagbuilder\\ViewHelpers'],
+];
+```
+
+
 ## Features
 
 * supports all tags currently defined by the HTML specification (see below)
