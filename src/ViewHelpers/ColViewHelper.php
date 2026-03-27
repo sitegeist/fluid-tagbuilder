@@ -6,4 +6,6 @@ namespace Sitegeist\FluidTagbuilder\ViewHelpers;
 class ColViewHelper extends ElementViewHelper
 {
     protected $tagName = 'col';
+
+    protected bool $isVoidElement = true;
 }

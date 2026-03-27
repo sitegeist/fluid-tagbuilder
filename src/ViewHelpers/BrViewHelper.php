@@ -6,4 +6,6 @@ namespace Sitegeist\FluidTagbuilder\ViewHelpers;
 class BrViewHelper extends ElementViewHelper
 {
     protected $tagName = 'br';
+
+    protected bool $isVoidElement = true;
 }

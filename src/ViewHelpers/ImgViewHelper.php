@@ -6,4 +6,6 @@ namespace Sitegeist\FluidTagbuilder\ViewHelpers;
 class ImgViewHelper extends ElementViewHelper
 {
     protected $tagName = 'img';
+
+    protected bool $isVoidElement = true;
 }

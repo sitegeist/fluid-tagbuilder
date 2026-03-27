@@ -6,4 +6,6 @@ namespace Sitegeist\FluidTagbuilder\ViewHelpers;
 class WbrViewHelper extends ElementViewHelper
 {
     protected $tagName = 'wbr';
+
+    protected bool $isVoidElement = true;
 }

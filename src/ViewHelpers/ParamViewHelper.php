@@ -6,4 +6,6 @@ namespace Sitegeist\FluidTagbuilder\ViewHelpers;
 class ParamViewHelper extends ElementViewHelper
 {
     protected $tagName = 'param';
+
+    protected bool $isVoidElement = true;
 }

@@ -6,4 +6,6 @@ namespace Sitegeist\FluidTagbuilder\ViewHelpers;
 class InputViewHelper extends ElementViewHelper
 {
     protected $tagName = 'input';
+
+    protected bool $isVoidElement = true;
 }

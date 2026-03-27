@@ -6,4 +6,6 @@ namespace Sitegeist\FluidTagbuilder\ViewHelpers;
 class MetaViewHelper extends ElementViewHelper
 {
     protected $tagName = 'meta';
+
+    protected bool $isVoidElement = true;
 }

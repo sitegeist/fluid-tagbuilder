@@ -6,4 +6,6 @@ namespace Sitegeist\FluidTagbuilder\ViewHelpers;
 class AreaViewHelper extends ElementViewHelper
 {
     protected $tagName = 'area';
+
+    protected bool $isVoidElement = true;
 }

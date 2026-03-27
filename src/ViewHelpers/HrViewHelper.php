@@ -6,4 +6,6 @@ namespace Sitegeist\FluidTagbuilder\ViewHelpers;
 class HrViewHelper extends ElementViewHelper
 {
     protected $tagName = 'hr';
+
+    protected bool $isVoidElement = true;
 }

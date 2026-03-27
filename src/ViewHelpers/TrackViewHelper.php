@@ -6,4 +6,6 @@ namespace Sitegeist\FluidTagbuilder\ViewHelpers;
 class TrackViewHelper extends ElementViewHelper
 {
     protected $tagName = 'track';
+
+    protected bool $isVoidElement = true;
 }

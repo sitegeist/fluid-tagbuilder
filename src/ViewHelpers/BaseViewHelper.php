@@ -6,4 +6,6 @@ namespace Sitegeist\FluidTagbuilder\ViewHelpers;
 class BaseViewHelper extends ElementViewHelper
 {
     protected $tagName = 'base';
+
+    protected bool $isVoidElement = true;
 }

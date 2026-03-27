@@ -6,4 +6,6 @@ namespace Sitegeist\FluidTagbuilder\ViewHelpers;
 class LinkViewHelper extends ElementViewHelper
 {
     protected $tagName = 'link';
+
+    protected bool $isVoidElement = true;
 }

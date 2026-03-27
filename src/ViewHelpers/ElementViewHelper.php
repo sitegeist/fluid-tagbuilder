@@ -18,6 +18,8 @@ class ElementViewHelper extends AbstractViewHelper
 
     protected $escapeOutput = false;
 
+    protected bool $isVoidElement = false;
+
     public function initializeArguments(): void
     {
         $this->registerArgument(self::$argumentPrefix . 'tagName', 'string', 'Name of the html element', false, $this->tagName);
@@ -60,6 +62,7 @@ class ElementViewHelper extends AbstractViewHelper
         $tagContent = $spaceless ? static::performSpaceless($this->renderChildren()) : $this->renderChildren();
         $tagBuilder = new TagBuilder($tagName, $tagContent);
         $tagBuilder->ignoreEmptyAttributes(true);
+        $tagBuilder->forceClosingTag(!$this->isVoidElement);
 
         // Set tag attributes
         $attributes = array_merge($this->arguments, $attributeList);

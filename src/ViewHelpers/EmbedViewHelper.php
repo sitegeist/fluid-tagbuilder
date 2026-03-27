@@ -6,4 +6,6 @@ namespace Sitegeist\FluidTagbuilder\ViewHelpers;
 class EmbedViewHelper extends ElementViewHelper
 {
     protected $tagName = 'embed';
+
+    protected bool $isVoidElement = true;
 }
