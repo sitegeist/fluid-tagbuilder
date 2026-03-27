@@ -59,7 +59,10 @@ class ElementViewHelper extends AbstractViewHelper
         );
 
         // Create tag builder instance
-        $tagContent = $spaceless ? static::performSpaceless($this->renderChildren()) : $this->renderChildren();
+        $tagContent = null;
+        if (!$this->isVoidElement) {
+            $tagContent = $spaceless ? static::performSpaceless($this->renderChildren()) : $this->renderChildren();
+        }
         $tagBuilder = new TagBuilder($tagName, $tagContent);
         $tagBuilder->ignoreEmptyAttributes(true);
         $tagBuilder->forceClosingTag(!$this->isVoidElement);
